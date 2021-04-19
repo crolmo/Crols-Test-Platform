@@ -1,0 +1,25 @@
+1.文件查看
+cat head less tail more stat
+2.目录操作
+mv cp rm mkdir touch find ln
+3.目录查看
+ls  tree cd pwd file
+4.权限
+chown chmod which useradd
+5.远程
+scp ssh rsync
+6.文本处理
+sort grep sed awk uniq wc xargs
+7，磁盘管理
+mount umount du df lsblk fdisk
+8.系统管理
+ps su  kill last export ipmitool dmidecode uname lspci
+9.压缩
+unzip zip tar gzip
+10.运维常用
+dmesg uname netstat top vmstat sar tsar sleep crontab  free
+11.内核相关
+lsmod modinfo insmod rmmod depmod modprobe
+12.网络相关
+ifconfig ip ping tcpdump arp route telnet ftp rcp nmap iptables ethtool
+

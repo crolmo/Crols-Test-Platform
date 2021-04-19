@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestHome</title>
+</head>
+<body>
+    <script>
+        let testlist = {{testhome_list| safe}};
+        console.log(testlist);
+    </script>
+    {% for row in testhome_list %}
+        <h1>{{row.title}}</h1>
+        <span>{{row.tid}}</span>
+        <p>{{row.tdata}}</p>
+        <ul>{{row.tdate}}</ul>
+    {% endfor %}
+</body>
+</html>
