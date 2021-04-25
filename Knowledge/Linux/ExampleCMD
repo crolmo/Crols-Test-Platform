@@ -1,0 +1,12 @@
+1.查看磁盘挂载及厂商信息
+lsblk -o name,kname,PKNAME,type,hctl,vendor,model,rev,rota,size,mountpoint,STATE
+2.查看SN
+midecode -t1|grep "Serial Number"
+3.查看bios信息
+dmidecode -t bios
+查看PCU信息
+echo CPU:`cat /proc/cpuinfo|grep -i name|uniq|awk -F ':' '{print $2}'`;echo counts:`cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l`;echo physical`cat /proc/cpuinfo| grep "cpu cores"|head -1`;echo Logical cpu cores: `cat /proc/cpuinfo| grep "processor"| wc -l`
+查看网卡信息
+netcard=`lspci | grep -i eth|xargs echo NIC:`;nic_driver_name=`echo $netcard |awk -F ' ' '{print $2}'|xargs lspci -vvv -s |grep "Kernel driver in use"|awk -F ":" '{print $2}'`;nic_driver_ver=`modinfo ${nic_driver_name}|grep version|grep -Ev "rhelversion|srcversion|vermagic"|awk -F ":" '{print $2}'`;nic_name=`ifconfig -a |awk -F ":"  '{print $1}'|grep -Ev "inet|loop|*X|ether|device|lo"|xargs`;nic_fw_ver=`echo $nic_name|awk -F ' ' '{print $1}'|xargs ethtool -i|grep firmware-version`;for i in `ifconfig|grep "eth.*<UP"|awk -F ':' '{print $1}'`;do echo $i:;res=`ethtool -i $i|grep "bus-info"|awk -F ':' '{print $3":"$4}'`;echo `lspci|grep Eth|grep $res`;done;echo -e "driver_name:$nic_driver_name\ndriver_version:$nic_driver_ver \nnic_name:$nic_name \n$nic_fw_ver"
+内存信息统计
+echo Mem:`dmidecode -t memory|grep -Ei "Manufacturer|Type|Size|Speed"|grep -vEi "Unknown|error|NO DIMM|Type Detail|Handle|Configured|No Module Installed"|sort |uniq` count: `dmidecode -t memory|grep "Size"|grep -v "No Module Installed"|wc -l`
