@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time : 2021/4/27 12:37
 # @Author : Crolmo
-# @Site : 
+# @Site :
 # @File : io_operating.py
 # @Software: PyCharm
 import os
@@ -25,7 +25,6 @@ def end_test():
 def file_not_exists_to_write():
     with open('test','xt') as f:
         print("crolmo",file=f)
-
 
 
 if __name__ == '__main__':

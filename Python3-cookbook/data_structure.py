@@ -14,6 +14,7 @@ from operator import itemgetter
 from itertools import groupby
 from itertools import compress
 
+
 def iter_to_obj(*args):
     '''
     任何的序列（或者是可迭代对象）可以通过一个简单的赋值操作来分解为单独的变量。 唯一的要求就是变量的总数和结构必须与序列相吻合
@@ -170,7 +171,6 @@ def filter_by_boolean():
     lboolean = [False,True,False,True,False,True,False,True]
     fdata = compress(addresses,lboolean)
     print(list(fdata))
-
 
 
 if __name__ == '__main__':
