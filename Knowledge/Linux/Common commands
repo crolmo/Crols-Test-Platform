@@ -11,7 +11,7 @@ scp ssh rsync
 6.文本处理
 sort grep sed awk uniq wc xargs
 7，磁盘管理
-mount umount du df lsblk fdisk
+mount umount du df lsblk fdisk parted blkid
 8.系统管理
 ps su  kill last export ipmitool dmidecode uname lspci
 9.压缩

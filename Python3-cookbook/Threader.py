@@ -1,21 +1,15 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Time : 2021/5/14 10:41
-# @Author : Crolmo
-# @Site : 
-# @File : Threader.py
-# @Software: PyCharm
-
 from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Process
 
-
-def sleep(time):
-    print(time)
+def test(n):
+    print(n)
     import time
-    time.sleep(5)
+    time.sleep(n)
 
 
 if __name__ == '__main__':
-    import psutil
-    for p in psutil.process_iter():
-        print(p.cpu_times)
+    for i in range(10):
+        t = Process(target=test,args=(i,))
+        t.start()
+        t.join()

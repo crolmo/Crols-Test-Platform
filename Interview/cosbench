@@ -1,0 +1,36 @@
+cosbench 使用要点
+1.配置管控节点
+[controller]
+concurrency=1 同时执行workload个数
+drivers=3  压力机数量
+log_level=INFO （TRACE,DEBUG,INFO,WARN,ERROR）
+log_file=log/system.log
+archive_dir=archive
+[driver1]
+name=driver1
+url=http://192.168.10.1:18088/driver
+
+<workload>
+  <auth />    #可选项
+  <storage />
+  <workflow>
+    <workstage>
+      <auth />    #可选项
+      <storage />    #可选项
+      <work />
+        <auth />    #可选项
+        <storage />        #可选项
+        <operation />
+    </workstage>
+   </workflow>
+</workload>
+
+<workstagename="main">
+<workname="main"workers="2"runtime="80">
+<operation type="write" ratio="100" config="cprefix=osstest-yy;oprefix=object4k;containers=u(1,10);objects=r(1,100);sizes=c(4)KB"/>
+</work>
+</workstage>
+
+init 创建bucket prepare 预写入数据  cleanup 删除数据 dispose 删除bucket
+
+

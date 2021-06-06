@@ -1,0 +1,41 @@
+性能相关工具
+CPU:
+top 1 查看
+top F 自定义显示
+mpstat -u -P ALL  查看每个cpu利用率
+pidstat -p pid 查看进程cpu利用率
+pidstat -w 上下文切换
+pstree  查看进程树
+perf top
+
+MEM:
+free -h
+pidstat -r 查看进程内存使用情况
+ps aux --sort=rss | head -n
+pmap -d pid 查看进程内存信息
+pmap -XX pid 显示内核所有信息
+
+DISK:
+pidstat -d 查看进程i/o
+blkid 查看块信息
+parted 分区操作工具
+fdisk -l
+df -h
+lsblk -o name,kname,PKNAME,type,hctl,vendor,model,rev,rota,size,mountpoint,STATE
+iostat -dxk  查看磁盘速率
+
+NETWORK:
+网络配置： ifconfig、 ip
+连通性探测： ping、 traceroute、 telnet、 mtr
+网络连接： netstat、 ss、 nc、 lsof
+流量统计： ifstat、 sar、 iftop
+交换与路由： arp、 arping、 vconfig、 route
+防火墙： iptables、 ipset
+域名： host、 nslookup、 dig、 whois
+抓包： tcpdump
+虚拟设备： tunctl、 brctl、 ovs
+
+OTHER:
+lshw 查看硬件详细信息
+lsof 当前系统打开文件的工具
+pidstat -t -p 任务的线程的统计信息外的额外信息

@@ -1,0 +1,93 @@
+pytest
+
+1.断言 assert
+2.捕获异常 with pytest.raises(TypeError) as e:
+3.标记测试函数 pytest.mark.finished pytest.mark.unfinished
+4.跳过测试@pytest.mark.skip(reason='out-of-date api')
+5.按条件跳过@pytest.mark.skipif(conn.__version__ < '0.2.0',reason='not supported until v0.2.0')
+6.预见错误功能 @pytest.mark.xfail(gen.__version__ < '0.2.0',reason='not supported until v0.2.0')
+7.参数功能@pytest.mark.parametrize('passwd',['123456','abcdefdfs','as52345fasdf4'])
+  @pytest.mark.parametrize('user, passwd',
+                         [pytest.param('jack', 'abcdefgh', id='User<Jack>'),
+                          pytest.param('tom', 'a123456a', id='User<Tom>')])
+8.固件功能：pytest.fixture()
+9.预处理和后处理 通过yield将pytest.fixture()分为预处理和后处理
+10.在定义固件时，通过 scope 参数声明作用域，可选项有：
+function: 函数级，每个测试函数都会执行一次固件；
+class: 类级别，每个测试类执行一次，所有方法都可以使用；
+module: 模块级，每个模块执行一次，模块内函数和方法都可使用；
+session: 会话级，一次测试只执行一次，所有被找到的函数和方法都可用。
+eg:@pytest.mark.usefixtures('class_scope')
+11.自动执行:@pytest.fixture(autouse=True)
+
+unittest
+
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Author  : Ailie
+# @File    : mailLogin.py
+# @Software: PyCharm
+import time
+import unittest
+from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
+class mailLogin(unittest.TestCase):
+    def setUp(self):
+        url = 'https://mail.yeah.net/'
+        self.browser = webdriver.Firefox()
+        self.browser.get(url)
+        time.sleep(5)
+
+    def test_login_01(self):
+        '''
+        用户名、密码为空
+        '''
+        self.browser.switch_to.frame("x-URS-iframe")
+        self.browser.find_element_by_name('email').send_keys('')
+        self.browser.find_element_by_name('password').send_keys('')
+        self.browser.find_element_by_id('dologin').click()
+        self.browser.switch_to.default_content()
+        time.sleep(3)
+        name = self.browser.find_element_by_id('spnUid')
+        if name == 'sanzang520@yeah.net':
+            print('登录成功')
+        else:
+            print('登陆失败')
+
+    def test_login_02(self):
+        '''
+        用户名正确、密码为错误
+        '''
+        self.browser.switch_to.frame("x-URS-iframe")
+        self.browser.find_element_by_name('email').send_keys('sanzang520')
+        self.browser.find_element_by_name('password').send_keys('xxx')
+        self.browser.find_element_by_id('dologin').click()
+        self.browser.switch_to.default_content()
+        time.sleep(3)
+        name = self.browser.find_element_by_id('spnUid')
+        if name == 'sanzang520@yeah.net':
+            print('登录成功')
+        else:
+            print('登陆失败')
+
+    def test_login_03(self):
+        '''
+        用户名、密码正确
+        '''
+        self.browser.switch_to.frame("x-URS-iframe")
+        self.browser.find_element_by_name('email').send_keys('sanzang520')
+        self.browser.find_element_by_name('password').send_keys('xxx')
+        self.browser.find_element_by_id('dologin').click()
+        self.browser.switch_to.default_content()
+        time.sleep(3)
+        name = self.browser.find_element_by_id('spnUid')
+        if name == 'sanzang520@yeah.net':
+            print('登录成功')
+        else:
+            print('登陆失败')
+
+    def tearDown(self):
+        self.browser.quit()
+
+if __name__ == "__main__":
+    unittest.main()

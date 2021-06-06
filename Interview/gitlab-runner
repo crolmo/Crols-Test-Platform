@@ -1,0 +1,51 @@
+stages: 定义整个 CICD pipeline 的 job 数量和名称
+variables: 定义 CICD 流程中的一些环境变量
+before_scripts: 在每个 job 的 scripts 执行前进行的命令集，一般是创建目录，打印 context 目录等操作，可类比 unittest 的 setUp 方法
+stage: 定义了一个 job 的具体流程，可以在前面加上名称
+
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  GIT_STRATEGY: none
+  PROJECT_REPO_NAMESPACE: test
+  PROJECT_REPO_NAME: cicd_learn
+  DEPLOYMENT_REPO_NAMESPACE: test
+  DEPLOYMENT_REPO_NAME: deploy_test
+
+before_script:
+  - export ROOT_PATH=$(pwd)
+  - echo 'root path:' $ROOT_PATH
+  - mkdir $PROJECT_REPO_NAME
+  - cd $PROJECT_REPO_NAME
+  - <some git manipulation here>
+  - echo 'date:' $DATE
+
+test_stage:
+  stage: test
+  script:
+    - <test related command here>
+  artifacts:
+    paths:
+      - xxxx.html
+    when: always
+  allow_failure: false
+
+build_stage:
+  stage: build
+  script:
+     - <build related command here>
+  when: manual
+  allow_failure: false
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - <deploy related command here>
+  allow_failure: false
+  only:
+    - master

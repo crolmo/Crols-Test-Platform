@@ -1,0 +1,67 @@
+direct=1	表示测试时忽略I/O缓存，数据直写。
+-iodepth=128	表示使用异步I/O（AIO）时，同时发出I/O数的上限为128。
+-rw=randwrite	表示测试时的读写策略为随机写（random writes）。其它测试可以设置为：
+randread（随机读random reads）
+read（顺序读sequential reads）
+write（顺序写sequential writes）
+randrw（混合随机读写mixed random reads and writes）
+-ioengine=libaio	表示测试方式为libaio（Linux AIO，异步I/O）。应用程序使用I/O通常有两种方式：
+同步
+同步的I/O一次只能发出一个I/O请求，等待内核完成才返回。这样对于单个线程iodepth总是小于1，但是可以透过多个线程并发执行来解决。通常会用16~32根线程同时工作将iodepth塞满。
+
+异步
+异步的I/O通常使用libaio这样的方式一次提交一批I/O请求，然后等待一批的完成，减少交互的次数，会更有效率。
+
+-bs=4k	表示单次I/O的块文件大小为4KiB。默认值也是4KiB。
+测试IOPS时，建议将bs设置为一个较小的值，如4k。
+测试吞吐量时，建议将bs设置为一个较大的值，如1024k。
+-size=1G	表示测试文件大小为1GiB。
+-numjobs=1	表示测试线程数为1。
+-runtime=1000	表示测试时间为1000秒。如果未配置，则持续将前述-size指定大小的文件，以每次-bs值为分块大小写完。
+-group_reporting	表示测试结果里汇总每个进程的统计信息，而非以不同job汇总展示信息。
+-filename=iotest	指定测试文件的名称，例如iotest。
+-name=Rand_Write_Testing	表示测试任务名称为Rand_Write_Testing，可以随意设定。
+
+filename=/dev/sdb1 测试文件名称，通常选择需要测试的盘的data目录。
+direct=1 测试过程绕过机器自带的buffer。使测试结果更真实。
+rw=randwrite 测试随机写的I/O
+rw=randrw 测试随机写和读的I/O
+bs=16k 单次io的块文件大小为16k
+bsrange=512-2048 同上，提定数据块的大小范围
+size=5g 本次的测试文件大小为5g，以每次4k的io进行测试。
+numjobs=30 本次的测试线程为30.
+runtime=1000 测试时间为1000秒，如果不写则一直将5g文件分4k每次写完为止。
+ioengine=psync io引擎使用pync方式
+rwmixwrite=30 在混合读写的模式下，写占30%
+group_reporting 关于显示结果的，汇总每个进程的信息。
+此外
+lockmem=1g 只使用1g内存进行测试。
+zero_buffers 用0初始化系统buffer。
+nrfiles=8 每个进程生成文件的数量。
+
+结果分析
+**io=执行了多少M的IO
+bw=平均IO带宽
+iops=IOPS**
+runt=线程运行时间
+slat=提交延迟
+clat=完成延迟
+lat=响应时间
+bw=带宽
+cpu=利用率
+IO depths=io队列
+IO submit=单个IO提交要提交的IO数
+IO complete=Like the above submit number, but for completions instead.
+IO issued=The number of read/write requests issued, and how many of them were short.
+IO latencies=IO完延迟的分布
+io=总共执行了多少size的IO
+aggrb=group总带宽
+minb=最小.平均带宽.
+maxb=最大平均带宽.
+mint=group中线程的最短运行时间.
+maxt=group中线程的最长运行时间.
+ios=所有group总共执行的IO数.
+merge=总共发生的IO合并数.
+ticks=Number of ticks we kept the disk busy.
+io_queue=花费在队列上的总共时间.
+util=磁盘利用率
